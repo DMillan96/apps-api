@@ -1,6 +1,9 @@
 package com.github.dmillan.apps_api;
 
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
+
 import javax.validation.constraints.*;
 
 @RestController
@@ -8,8 +11,7 @@ import javax.validation.constraints.*;
 public class CreateEmail {
 
     @PostMapping("/create-email")
-    public String createEmail(@RequestBody EmailRequest emailRequest) {
-        // Simulate email creation
+    public String createEmail(@Valid @RequestBody EmailRequest emailRequest) {
         return String.format("Email created successfully for %s %s at email: %s and phonenumber: %s with message: %s",
                 emailRequest.getFirstname(),
                 emailRequest.getLastname(),
@@ -30,7 +32,7 @@ public class CreateEmail {
         @NotBlank(message = "Email is required")
         private String email;
 
-        @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Invalid phone number")
+        @Pattern(regexp = "^\\d{3}-\\d{3}-\\d{4}$", message = "Phone number must be in the format XXX-XXX-XXXX")
         private String phone;
 
         @NotBlank(message = "Message is required")
